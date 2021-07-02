@@ -20,8 +20,17 @@ describe('user sends a request to reset the password', () => {
     });
 })
 
+describe('user sends a blank form', () => {
+    it('it does not send instructions', () => {
+        cy.visit(url)
+        cy.contains('I forgot').click()
+        cy.get('.btn-brand-purple__3JIxHxx4KYF2OVbx8Jg6mb').click()
+        cy.contains('Enter a valid email').should('be.visible')
+    });
+})
+
 describe('reset a password using incorrect email', () => {
-    it('', () => {
+    it('does not send instructions', () => {
         cy.visit(url)
         cy.contains('I forgot').click()
         cy.contains('Please enter your email:').type(wrongEmail)
