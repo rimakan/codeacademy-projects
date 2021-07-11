@@ -2,6 +2,13 @@ const url = 'https://www.codeacademy.com/login';
 const email = 'netehih761@advew.com';
 const wrongEmail = 'testtest.com'
 
+const forgotPass = emailType => {
+    cy.visit(url)
+    cy.contains('I forgot').click()
+    cy.contains('Please enter your email:').type(emailType)
+    cy.get('.btn-brand-purple__3JIxHxx4KYF2OVbx8Jg6mb').click()
+}
+
 describe('user wants to restore the password', () => {
     it('redirects to the restore page', () => {
         cy.visit(url)
@@ -12,29 +19,21 @@ describe('user wants to restore the password', () => {
 
 describe('user sends a request to reset the password', () => {
     it('it sends instructions to the email', () => {
-        cy.visit(url)
-        cy.contains('I forgot').click()
-        cy.contains('Please enter your email:').type(email)
-        cy.get('.btn-brand-purple__3JIxHxx4KYF2OVbx8Jg6mb').click()
+        forgotPass(email)
         cy.contains('Password Reset Sent').should('be.visible')
     });
 })
 
 describe('user sends a blank form', () => {
     it('it does not send instructions', () => {
-        cy.visit(url)
-        cy.contains('I forgot').click()
-        cy.get('.btn-brand-purple__3JIxHxx4KYF2OVbx8Jg6mb').click()
+        forgotPass
         cy.contains('Enter a valid email').should('be.visible')
     });
 })
 
 describe('reset a password using incorrect email', () => {
     it('does not send instructions', () => {
-        cy.visit(url)
-        cy.contains('I forgot').click()
-        cy.contains('Please enter your email:').type(wrongEmail)
-        cy.get('.btn-brand-purple__3JIxHxx4KYF2OVbx8Jg6mb').click()
+        forgotPass(wrongEmail)
         cy.contains('Enter a valid email').should('be.visible')
     });
 })
